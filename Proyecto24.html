@@ -1,0 +1,272 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Licorería</title>
+    <style>
+        body{
+            background: linear-gradient(to right, #383838, #a02929);
+            margin: 0;
+        }
+        header{
+            height: 70px;
+            background-color:rgb(231, 87, 87);
+            box-shadow: 0px 5px 15px;
+        }
+        h1{
+            margin: 0;
+            text-align:center;
+            line-height: 70px;
+        }
+        #caja{
+            display: flex;
+        }
+        table{
+            display: flex;
+        }
+        #lado{
+            margin: 5px;
+        }
+        #bebidas{
+            background-color:rgb(231, 87, 87);
+            width: 310px;
+            height: 300px;
+            border: solid 3px black;
+            box-shadow: 0px 5px 15px;
+        }
+
+        table tr td{
+            font-size: 20px;
+            padding: 3px;
+        }
+        tr td button{
+            height: 30px;
+            width: 30px;
+        }
+        #separacion{
+            margin-left: 30px;
+        }
+        div h3{
+            font-size: 30px;
+            text-align: center;
+        }
+        .padre{
+            display: flex;
+            margin-left: 15%;
+            margin-top: 5%;
+        }
+        .seg{
+            width: 350px;
+            margin-left: 300px;
+            background-color:rgb(231, 87, 87);
+            border: solid 3px black;
+            box-shadow: 0px 5px 15px;
+        }
+        .boton{
+            width: 70px;
+            height: 40px;
+            margin-top: 260px;
+        }
+        #texto{
+            font-size: 17px;
+        }
+        #total{
+            font-size: 17px;
+        }
+        footer{
+            display: flex;
+            height: 100px;
+        }
+        .terc{
+            width: 350px;
+            margin-left: 480px;
+            background-color:rgb(231, 87, 87);
+            border: solid 3px black;
+            box-shadow: 0px 5px 15px;
+            
+        }
+        .cierre{
+            width: 70px;
+            height: 40px;
+            margin-left: 94.8%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Gestor de ventas</h1>
+    </header>
+        <button class="cierre" onclick="historial()">Historial completo</button>
+        <button class="cierre" onclick="ocultar()">Ocultar historial</button>
+    <div class="padre">
+        <div id="bebidas">
+            <h3>Bebidas</h3>
+            <div id="caja">
+                <div>
+                    <table>
+                        <tr>
+                            <td>Coca-Cola <button onclick="coca()">+</button></td>
+                        </tr>
+                        <tr>
+                            <td>Sprite &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="sprite()">+</button></td>
+                        </tr>
+                        <tr>
+                            <td>Fanta &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="fanta()">+</button></td>
+                        </tr>
+                        <tr>
+                            <td>Fernet &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="fernet()">+</button></td>
+                        </tr>
+                        <tr>
+                            <td>Vodka &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="vodka()">+</button></td>
+                        </tr>
+                    </table>
+                </div> 
+              
+                <div id="separacion">
+                    <table>
+                        <tr>
+                            <td>Sky &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="sky()">+</button></td>
+                        </tr>
+                        <tr>
+                            <td>Cerveza <button onclick="cerveza()">+</button></td>
+                        </tr>
+                        <tr>
+                            <td>Vino &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="vino()">+</button></td>
+                        </tr>
+                        <tr>
+                            <td>Whisky <button onclick="whisky()">+</button></td>
+                        </tr>
+                        <tr>
+                            <td>Ginebra <button onclick="ginebra()">+</button></td>
+                        </tr>
+                    </table>
+                </div>        
+            </div>
+        </div>
+        <div class="seg">
+            <h3>Caja registradora</h3>
+            <p id="texto">
+                <p id="total"></p>
+            </p>
+        </div>
+        <button class="boton" onclick="eliminar()">Eliminar</button>
+        <button class="boton" onclick="calcular()">Calcular</button>
+        <button class="boton" onclick="mostrar()">Cierre del dia</button>
+        
+    </div>
+    <div class="terc">
+        <div id="totdia"></div>
+        <div id="tike"></div>
+    </div>
+    
+    </div>
+    <footer>
+
+    </footer>
+
+    <script>
+        var a="";
+        var total="";
+        var precio=0;
+        var preciotot=0;
+        var vector= JSON.parse(localStorage.getItem("productos"))  || [];
+        var vecprecios= JSON.parse(localStorage.getItem("precio")) || [];
+        
+
+        function mostrar(){
+           document.getElementById("totdia").innerHTML=total;
+           document.getElementById("tike").innerText=preciotot;
+           vector.push(total)
+           vecprecios.push(preciotot);
+           localStorage.setItem("productos",JSON.stringify(vector));
+           localStorage.setItem("precio", JSON.stringify(vecprecios)); 
+           total=""
+           preciotot=0;
+        }
+
+        function historial(){
+            var b="";
+            var c=0;
+            for(var i=0;i<vector.length;i++){
+               b += "Dia "+(i+1) + "<br>" + vector[i] + "<br>";
+               c += vecprecios[i];
+            }
+            document.getElementById("totdia").innerHTML=b + "<br>" + "Total acumulado: " + c;
+        }
+
+        function ocultar(){
+            document.getElementById("totdia").innerText="";
+            document.getElementById("tike").innerText="";
+        }
+
+        function coca(){
+            a+="Coca-Cola  $3000 <br>"
+            document.getElementById("texto").innerHTML=a;
+            precio+=3000;
+
+        }
+        function sprite(){
+            a+="Sprite  $2500 <br>"
+            document.getElementById("texto").innerHTML=a;
+             precio+=2500;
+        } 
+        function fanta(){
+            a+="Fanta  $2500 <br>"
+            document.getElementById("texto").innerHTML=a;
+             precio+=2500;
+        }
+        function fernet(){
+            a+="Fernet  $9000<br>"
+            document.getElementById("texto").innerHTML=a;
+             precio+=9000;
+        }
+        function vodka(){
+            a+="Vodka  $4000 <br>"
+            document.getElementById("texto").innerHTML=a; 
+             precio+=4000;
+        }
+        function sky(){
+            a+="Sky  $4500 <br>"
+            document.getElementById("texto").innerHTML=a;
+             precio+=4500;
+        }
+        function cerveza(){
+            a+="Cerveza  $2000 <br>"
+            document.getElementById("texto").innerHTML=a;
+             precio+=2000;
+        }
+        function vino(){
+            a+="Vino  $1500 <br>"
+            document.getElementById("texto").innerHTML=a;
+            precio+=1500;
+        }
+        function whisky(){
+            a+="Whisky  $15000 <br>"
+            document.getElementById("texto").innerHTML=a;
+             precio+=15000;
+        }
+        function ginebra(){
+            a+="Ginebra  $3000<br>"
+            document.getElementById("texto").innerHTML=a;
+            precio+=3000;
+        }
+        function calcular(){
+            document.getElementById("total").innerHTML= "Total: " + precio+"<br>";
+            
+        }
+        function eliminar(){
+           document.getElementById("total").innerText="";
+            document.getElementById("texto").innerHTML="";
+            document.getElementById("total").innerHTML="";
+            total+=a;
+            preciotot+=precio;
+            precio=0;
+            a="";
+        }
+    </script>
+    
+</body>
+</html>
